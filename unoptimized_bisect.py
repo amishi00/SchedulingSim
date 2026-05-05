@@ -132,7 +132,7 @@ def advance_lowest_jobs(remaining, jobs, rank_index, result_ages, t_now, complet
     return result_ages, remaining, t_now, completed, sticky_job
 
 
-def find_rank_after_time(T, old_rank_data, rank_index, jobs, snapshot, t_now=0.0,
+def find_rank_after_time(T, old_rank_data, rank_index, jobs, t_now=0.0,
                          sticky_job=None):
     """
     Run the lowest-rank-first scheduler for time T. Bisection fast-forwards
@@ -150,7 +150,6 @@ def find_rank_after_time(T, old_rank_data, rank_index, jobs, snapshot, t_now=0.0
         result_ages, _, t_now, completed, sticky_job = advance_lowest_jobs(
             T, jobs, rank_index, result_ages, t_now, completed, sticky_job
         )
-        snapshot.add_snapshot(result_ages.copy())
         return 0, result_ages, completed, t_now, sticky_job
 
     min_rank = min(rank_index.apply_rank(job.age) for job in active_jobs)
@@ -164,7 +163,6 @@ def find_rank_after_time(T, old_rank_data, rank_index, jobs, snapshot, t_now=0.0
         result_ages, _, t_now, completed, sticky_job = advance_lowest_jobs(
             T, jobs, rank_index, result_ages, t_now, completed, sticky_job
         )
-        snapshot.add_snapshot(result_ages.copy())
         return min_rank, result_ages, completed, t_now, sticky_job
 
     lo, hi = 0, len(all_ranks) - 1
@@ -189,15 +187,12 @@ def find_rank_after_time(T, old_rank_data, rank_index, jobs, snapshot, t_now=0.0
         for job in jobs
     ]
 
-    snapshot.add_snapshot(result_ages.copy())
-
     remaining = T - closest_time
 
     if remaining > EPS:
         result_ages, _, t_now, completed, sticky_job = advance_lowest_jobs(
             remaining, jobs, rank_index, result_ages, t_now, completed, sticky_job
         )
-        snapshot.add_snapshot(result_ages.copy())
 
     return target_rank, result_ages, completed, t_now, sticky_job
 
@@ -217,7 +212,6 @@ def sim_arrival(n, rank_data, mean_interarrival, mean_size, seed=0):
 
 
     rank_index = piecewiseNEW.RankIndex(list(rank_data))
-    snapshot_visualizer = SnapshotVisualizer(rank_data, [])
     next_arrival_time = np.random.exponential(mean_interarrival)
 
 
@@ -261,7 +255,7 @@ def sim_arrival(n, rank_data, mean_interarrival, mean_size, seed=0):
 
             _, result_ages, completed, t_now, returned_sticky = find_rank_after_time(
                 budget, list(rank_data), rank_index, current_jobs,
-                snapshot_visualizer, time_passed, sticky_job
+               time_passed, sticky_job
             )
 
             for i, j in enumerate(current_jobs):
@@ -317,8 +311,6 @@ def sim_arrival(n, rank_data, mean_interarrival, mean_size, seed=0):
             else:
                 next_arrival_time = float("inf")
 
-        snapshot_visualizer.add_snapshot([j.age for j in current_jobs])
-
         if not current_jobs and jobs_generated >= n:
             break
 
@@ -338,7 +330,7 @@ def sim_arrival(n, rank_data, mean_interarrival, mean_size, seed=0):
         print(f"Mean Delay: {total_delay / completed_count:.4f}", flush=True)
     print(f"Wall-clock time: {wall_clock:.4f}s", flush=True)
 
-    return all_jobs, snapshot_visualizer, wall_clock
+    return all_jobs, wall_clock
     
 # rank_data = [(i/100,i/100)for i in range(100000)]
 rank_data = [
@@ -749,7 +741,7 @@ def duplicate_step(k, rank_data):
     return [(sum(rd[(i + j) // k][0] for j in range(k)) / k, rd[i // k][1]) for i in range(k * len(rd) - k + 1)]
 def run(k, N=200, mean_interarrival=1.0, mean_size=3.0, seed=0):
     rank_k = duplicate_step(k, rank_data)
-    _, _, wall_clock = sim_arrival(N, rank_k, mean_interarrival, mean_size, seed)
+    _, wall_clock = sim_arrival(N, rank_k, mean_interarrival, mean_size, seed)
     return wall_clock
 
 
