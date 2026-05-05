@@ -1,7 +1,6 @@
 import argparse
 import piecewiseNEW
 import job_queue
-from snapshot_visualizer import SnapshotVisualizer
 import numpy as np
 import math
 import time
