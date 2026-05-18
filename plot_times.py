@@ -22,11 +22,11 @@ bisect_times = []
 
 for k in k_values:
     print(f"\n{'='*50}")
-    print(f"[Jasmine / Naive] k={k}")
+    print(f"[Naive] k={k}")
     t_naive = naive.run(k, N=N, mean_interarrival=MEAN_INTERARRIVAL, mean_size=MEAN_SIZE, seed=SEED)
     naive_times.append(t_naive)
 
-    print(f"\n[Michael / Bisect] k={k}")
+    print(f"\n[Bisect] k={k}")
     t_bisect = unoptimized_bisect.run(k, N=N, mean_interarrival=MEAN_INTERARRIVAL, mean_size=MEAN_SIZE, seed=SEED)
     bisect_times.append(t_bisect)
 
@@ -37,8 +37,8 @@ for k, tn, tb in zip(k_values, naive_times, bisect_times):
     print(f"{k:<6} {tn:<14.4f} {tb:.4f}")
 
 plt.figure()
-plt.plot(k_values, naive_times,  marker='o', label='Naive (Jasmine)')
-plt.plot(k_values, bisect_times, marker='o', label='Bisect (Michael)')
+plt.plot(k_values, naive_times,  marker='o', label='Naive')
+plt.plot(k_values, bisect_times, marker='o', label='Bisect')
 plt.xlabel('k')
 plt.ylabel('Wall-clock time (seconds)')
 plt.title(f'Naive vs Bisect Runtime  |  N={N}, seed={SEED}, λ=1/{MEAN_INTERARRIVAL}, μ=1/{MEAN_SIZE}')
