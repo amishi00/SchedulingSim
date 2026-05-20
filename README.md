@@ -1,7 +1,10 @@
 # Optimized Simulation of Discrete Rank-Based Scheduling
 
 **Authors:** Amishi Gupta, Jasmine Si, Michael Sidoti
+
 **Course:** Cornell ORIE 4999, Spring 2026
+
+Done under the guidance of Professor Ziv Scully and Amit Harlev.
 
 ## Overview
 
@@ -73,24 +76,11 @@ python bisect_np.py <k>
 python bisect_np.py 5
 ```
 
-To use a custom rank dataset when calling programmatically, pass it via the `rank_data` keyword argument:
-
-```python
-import naive
-my_rank_data = [(i/10, i/10) for i in range(500)]
-naive.run(k=3, N=500, seed=42, rank_data=my_rank_data)
-```
-
-`las_event_driven.py` is importable only (no CLI entry point):
-
-```python
-import las_event_driven
-las_event_driven.run(N=200, mean_interarrival=1.0, mean_size=3.0, seed=3)
-```
 
 ## Dependencies
 
 ```
+python
 numpy
 matplotlib
 ```
