@@ -1,6 +1,6 @@
 
 """
-Numpy-vectorized version of piecewiseNEW.
+Numpy-vectorized version of piecewise.
 """
  
 from bisect import bisect_left, bisect_right
