@@ -25,7 +25,7 @@ Three simulation approaches are compared:
 
 | File | Purpose |
 |---|---|
-| `plottimes.py` | Main benchmarking script. Runs Naive, Bisect, and Bisect+NumPy across `k=1..max_k` and plots wall-clock runtime vs `k`. |
+| `plot_runtimes.py` | Main benchmarking script. Runs Naive, Bisect, and Bisect+NumPy across `k=1..max_k` and plots wall-clock runtime vs `k`. |
 | `naive.py` | Naive event-driven simulator. Importable module with `run(k, ...)`. |
 | `unoptimized_bisect.py` | Bisect simulator (pure Python). Importable module with `run(k, ...)`. |
 | `bisect_np.py` | Bisect + NumPy simulator. Importable module with `run(k, ...)`. |
@@ -34,15 +34,15 @@ Three simulation approaches are compared:
 | `piecewise_np.py` | NumPy-vectorized `RankIndex` used internally by `bisect_np`. |
 | `piecewiseNEW.py` | Pure-Python `RankIndex` used internally by `unoptimized_bisect`. |
 
-## Running `plottimes.py`
+## Running `plot_runtimes.py`
 
 ```bash
-python plottimes.py <max_k>
+python plot_runtimes.py <max_k>
 ```
 
 **Example** — sweep `k` from 1 to 10:
 ```bash
-python plottimes.py 10
+python plot_runtimes.py 10
 ```
 
 This prints a runtime table and opens a matplotlib plot. Key parameters are set at the top of the file:
