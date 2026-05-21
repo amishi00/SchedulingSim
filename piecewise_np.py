@@ -71,8 +71,6 @@ class RankIndex:
             return math.inf
         return float(self.ages[idx])
  
-    # ── batch API (this is where the speedup lives) ──────────────────────
- 
     def apply_rank_batch(self, ages):
         """
         ages: 1-D ndarray.
