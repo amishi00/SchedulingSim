@@ -25,8 +25,6 @@ class RankIndex:
         B = len(self.ranks)
         R = len(self.unique_ranks)
 
-        # next_ge[i][q] = first index j >= i
-        # such that ranks[j] >= unique_ranks[q]
         self.next_ge = [[None] * R for _ in range(B + 1)]
 
         for q in range(R):

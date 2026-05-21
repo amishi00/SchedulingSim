@@ -411,14 +411,13 @@ RANK_PREPROVIDED = rank_data = [
 ]
 
 # ── Shared simulation parameters ─────────────────────────────────────────────
-N                 = 1000   # number of jobs
+N                 = 200   # number of jobs
 MEAN_INTERARRIVAL = 1.0    # mean inter-arrival time
 MEAN_SIZE         = 3.0    # mean job size
 SEED              = 3      # random seed
 
 # Swap in any rank_data you want here; modules fall back to their own if not passed.
 # Example: LAS identity rank   → [(i/100, i/100) for i in range(10000)]
-# Example: default (from naive) → naive.rank_data  (after import)
 RANK_DATA         = RANK_PREPROVIDED   # None = each module uses its own built-in rank_data
 # ─────────────────────────────────────────────────────────────────────────────
 
